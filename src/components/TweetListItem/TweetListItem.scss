@@ -1,0 +1,26 @@
+@import "assets/colors.scss";
+
+
+.TweetListItem{
+    display: flex;
+    padding: 10px;
+    margin-bottom: 8px;
+    border: 1px $border-color solid;
+    border-radius: 5px;
+}
+
+.TweetListItem__ProfilePic{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.TweetListItem__Username{
+    margin-bottom: 8px;
+}
+
+.TweetListItem__Info{
+    color: #777;
+    font-size: 14px;
+}

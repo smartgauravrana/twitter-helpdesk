@@ -29,6 +29,8 @@
     "mongoose": "^5.9.9",
     "nodemailer": "^6.4.11",
     "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "query-string": "^6.13.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-infinite-scroller": "^1.2.4",

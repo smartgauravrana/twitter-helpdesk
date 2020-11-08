@@ -2,11 +2,10 @@
 require("dotenv").config();
 
 // db related stuff
-// require("./api/data/db");
-// require("./api/data/model/match.model");
-// require("./api/data/model/user.model");
-// require("./api/data/model/sellRequest.model");
-// require("./api/data/model/setting.model");
+require("./api/data/db");
+require("./api/data/model/user.model");
+require("./api/data/model/organisation.model");
+require("./api/data/model/tweet.model");
 
 const express = require("express");
 const http = require("http");
@@ -33,10 +32,15 @@ app.use(
 );
 
 // initialize passport
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
-// require("./services/passport");
+require("./services/passport");
+
+app.use('/callback', (req, res)=> {
+  console.log("req: ", req.query)
+  res.send({query: req.query})
+})
 
 app.use("/api", routes);
 
