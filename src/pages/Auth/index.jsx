@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useToasts } from 'react-toast-notifications'
 
 // react actions
 import {login, register} from "redux/modules/auth";
@@ -24,19 +25,28 @@ function Auth({
 }) {
 
   const {isLoading} = auth;
+  const { addToast } = useToasts();
 
   return <div className="Auth">
     <div className="Login">
       <Formik
         initialValues={{ email: '', password: '' }}
         validationSchema={loginSchema}
-        onSubmit={(values) => {
+        onSubmit={(values, {setSubmitting }) => {
           login(values, () => {
+            setSubmitting (false);
             history.push('/');
+          }, err => {
+            const {data} = err.response;
+                addToast(data.error, {
+                    appearance: 'error',
+                    autoDismiss: true,
+                  });
+                setSubmitting (false);
           });
         }}
       >
-        {({  isValid }) => (
+        {({  isValid , isSubmitting}) => (
           <Form >
             <p className="form-title">Login</p>
             <div className="form-group">
@@ -50,7 +60,7 @@ function Auth({
               <ErrorMessage name="password" component="div" className="error-msg"/>
             </div>
 
-            <button type="submit" className="form-button" disabled={!isValid || isLoading}>
+            <button type="submit" className="form-button" disabled={!isValid || isSubmitting}>
               Login
            </button>
           </Form>
@@ -62,11 +72,25 @@ function Auth({
       <Formik
         initialValues={{organisationName: '', email: '', password: '' }}
         validationSchema={registerSchema}
-        onSubmit={(values) => {
-          register(values);
+        onSubmit={(values, {setSubmitting, resetForm }) => {
+          register(values, () => {
+            addToast('Registered Successfully!', {
+              appearance: 'success',
+              autoDismiss: true,
+            });
+            setSubmitting (false);
+            resetForm();
+          }, err => {
+            const {data} = err.response;
+              addToast(data.error, {
+                  appearance: 'error',
+                  autoDismiss: true,
+                });
+              setSubmitting (false);
+          });
         }}
       >
-        {({ isValid }) => (
+        {({ isValid, isSubmitting }) => (
           <Form >
           <p className="form-title">Register</p>
             <div className="form-group">
@@ -85,7 +109,7 @@ function Auth({
               <ErrorMessage name="password" component="div" className="error-msg" />
             </div>
 
-            <button type="submit" className="form-button" disabled={!isValid || isLoading}>
+            <button type="submit" className="form-button" disabled={!isValid || isSubmitting}>
               Submit
            </button>
           </Form>

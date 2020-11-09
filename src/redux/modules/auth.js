@@ -43,7 +43,7 @@ export const register = (
       url: endpoints.register,
       data: registerData
     });
-    cbSuccess && cbSuccess(data);
+    cbSuccess && cbSuccess(res);
   } catch (e) {
     cbError && cbError(e);
   } finally{
