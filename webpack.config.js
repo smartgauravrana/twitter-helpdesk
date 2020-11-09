@@ -97,20 +97,20 @@ module.exports = env => {
         filename: "[name].[contenthash].css",
         chunkFilename: "[name].[contenthash].css",
         ignoreOrder: true
+      }),
+      new CompressionPlugin({
+        filename: "[path].gz[query]",
+        algorithm: "gzip",
+        test: /\.js$|\.css$|\.html$/,
+        threshold: 10240,
+        minRatio: 0.8
+      }),
+      new BrotliPlugin({
+        asset: "[path].br[query]",
+        test: /\.js$|\.css$|\.html$/,
+        threshold: 10240,
+        minRatio: 0.8
       })
-      // new CompressionPlugin({
-      //   filename: "[path].gz[query]",
-      //   algorithm: "gzip",
-      //   test: /\.js$|\.css$|\.html$/,
-      //   threshold: 10240,
-      //   minRatio: 0.8
-      // }),
-      // new BrotliPlugin({
-      //   asset: "[path].br[query]",
-      //   test: /\.js$|\.css$|\.html$/,
-      //   threshold: 10240,
-      //   minRatio: 0.8
-      // })
     ],
     devServer: {
       index: "index.html",
