@@ -1,28 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from 'react-redux';
+import { Route, useHistory, Switch } from 'react-router';
 
-import TweetsList from "components/TweetsList";
-import TweetListItem from "components/TweetListItem";
-import TweetSection from "components/TweetSection";
-import Profile from "components/Profile";
+import Header from 'components/Header';
+import PrivateRoute from 'components/PrivateRoute';
 import Auth from "pages/Auth";
+import Home from 'pages/Home';
+import LoginTwitter from 'components/LoginTwitter';
+
+// redux actions
+import { getCurrentUser } from 'redux/modules/auth';
+
 import "./App.scss";
 
-export default function App(){
-    return <div>
-        <div className="Container">
-            <div>
-                <h1 className="AppTitle">Tweeto</h1>
-            </div>
-            <div className="Content">
-                <Auth />
-                {/* <div className="TweetsContainer">
-                    <TweetsList />
-                </div>
-                <div className="TweetDetailContainer">
-                    <TweetSection/>
-                    <Profile />
-                </div> */}
-            </div>           
-        </div>
+function App({
+  getCurrentUser,
+  auth
+}) {
+
+  const history = useHistory();
+
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
+
+  const { user, isFetching } = auth;
+
+  return !isFetching ? (<div>
+    <div className="Container">
+      <Header user={auth.user} />
+      {user._id && !user.organisationId.accessToken && <LoginTwitter/>}
+      <div className="Content">
+        <Switch>
+          <Route path='/auth' component={Auth} exact />
+          <PrivateRoute path='/' component={Home} history={history} exact />
+        </Switch>
+
+        {/* {!user._id ? <Auth /> :
+          <Home />} */}
+      </div>
     </div>
-}
+  </div>) : <div>Loading...</div>
+};
+
+export default connect(({
+  auth
+}) => ({
+  auth
+}), {
+  getCurrentUser
+})(App)

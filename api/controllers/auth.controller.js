@@ -3,6 +3,7 @@ const { genPassword, ErrorResponse } = require("../../utils");
 const { asyncHandler } = require("../../middlewares");
 const { getRequestToken, getAccessToken } = require('../../services/auth');
 const twitterService = require('../../services/twitterService');
+const { isUserActivitySubscribed } = require("../../services/twitterService");
 
 const User = mongoose.model("users");
 const Organisation = mongoose.model("organisations");
@@ -32,7 +33,7 @@ module.exports.register = asyncHandler(async (req, res, next) => {
       organisationId: organisationId || org._id
     }).save();
     
-    res.send({ success: true, data: user });
+    res.send({ success: true});
   } else {
     next(new ErrorResponse("User with this email already exists!", 400));
   }
@@ -64,12 +65,23 @@ module.exports.handleOauthCb = asyncHandler(async (req, res, next) => {
     tokenSecret : response.oauth_token_secret,
     twitterUserId: response.user_id,
     screenName: response.screen_name
-  }
+  };
+  const tokenInfo = {
+    token: response.oauth_token,
+    token_secret: response.oauth_token_secret
+  };
  
-  await Organisation.findByIdAndUpdate(req.query.orgId, organisation, {  new: true})
+  await Organisation.findByIdAndUpdate(req.query.orgId, organisation, {  new: true});
 
-  const profile = await twitterService.getUserDetails({token: response.oauth_token, token_secret: response.oauth_token_secret}, response.user_id);
-  console.log('profile data:   ', profile);
+  // subscribing to user activity
+  const isUserSubscribed = await twitterService.isUserActivitySubscribed(tokenInfo)
+  console.log("isUserSubscribed ", isUserSubscribed)
+  if(!isUserSubscribed) {
+    await twitterService.subscribeToUserActivity(tokenInfo);
+  }
 
-  res.redirect(302, '/');
+  // const profile = await twitterService.getUserDetails({token: response.oauth_token, token_secret: response.oauth_token_secret}, response.user_id);
+  // console.log('profile data:   ', profile);
+
+  res.redirect(302, 'http://localhost:8080');
 });

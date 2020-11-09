@@ -5,27 +5,9 @@
     margin: 0 auto;
 }
 
-.AppTitle{
-    color: paleturquoise;
-}
-
 .Content {
     display: flex;
     padding-top: 40px;
-    height: 700px;  
-}
-
-.TweetsContainer{
-    width: 25%;
-    //border: 1px solid;
-    height: 100%;
-}
-
-.TweetDetailContainer{
-    width: 75%;
-    border: 1px $border-color solid;
-    border-radius: 5px;
-    height: 100%;
-    margin-left: 30px;
-    display: flex;
+    // height: 700px;  
+    height: 80vh;
 }

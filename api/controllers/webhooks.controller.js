@@ -20,7 +20,7 @@ module.exports.handleWebhookData = async (req, res, next) => {
     if (organisation) {
       const tweets = [];
       for (let item of req.body.tweet_create_events) {
-        const { timestamp_ms, user, text } = item;
+        const { timestamp_ms, user, text, id_str } = item;
         const mentionedBy = {
           twitterId : user.id, 
           username : user.screen_name,
@@ -28,6 +28,7 @@ module.exports.handleWebhookData = async (req, res, next) => {
           profilePic : user.profile_image_url_https
         }
         const tweet = {
+          tweetId: id_str,
           forUserId: for_user_id,
           text,
           timestamp: timestamp_ms,

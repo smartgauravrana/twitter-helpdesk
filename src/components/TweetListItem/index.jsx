@@ -2,14 +2,18 @@ import React from "react";
 
 import './TweetListItem.scss';
 
-export default function TweetListItem(){
-    return <div className="TweetListItem">
+export default function TweetListItem({ tweet, onClick, selectedTweet }) {
+    const { mentionedBy, text } = tweet;
+    return <div className={`TweetListItem ${selectedTweet && selectedTweet._id === tweet._id ? 'selectedTweet' : ''}`} onClick={onClick}>
         <div className="TweetListItem__Profile">
-            <img src="https://randomuser.me/api/portraits/women/76.jpg" alt="" className="TweetListItem__ProfilePic"/>
+            <img
+                src={mentionedBy.profilePic}
+                alt=""
+                className='TweetListItem__ProfilePic' />
         </div>
         <div className="TweetListItem__Details">
-            <div className="TweetListItem__Username" ><strong>Username</strong></div>
-            <div className="TweetListItem__Info">Hello there, May I ask a favour!</div>
+            <div className="TweetListItem__Username" ><strong>{mentionedBy.username}</strong></div>
+            <div className="TweetListItem__Info">{text}</div>
         </div>
     </div>
 }

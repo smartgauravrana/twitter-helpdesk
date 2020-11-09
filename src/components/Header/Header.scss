@@ -1,0 +1,21 @@
+.Header{
+  display: flex;
+  justify-content: space-between;
+  &__links{
+    display: flex;
+    align-items: center;
+
+    a{
+      text-decoration: none;
+      color: #777;
+    }
+  }
+}
+
+.AppTitle{
+  color: paleturquoise;
+}
+
+.Header__links-left > *{
+  margin-right: 10px;
+}

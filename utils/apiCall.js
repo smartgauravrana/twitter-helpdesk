@@ -18,6 +18,7 @@ function apiCall({
     url,
     data = {},
     oauthCallback,
+    form,
     queryStringReturnType = false
 }) {
     var request_options = {
@@ -28,7 +29,9 @@ function apiCall({
         }
       }
     
-    if(oauthCallback) request_options.oauth.callback = oauthCallback
+    if(oauthCallback) request_options.oauth.callback = oauthCallback;
+
+    if(form) request_options.form = form;
 
     return new Promise (function (resolve, reject) {
         request(request_options, function(error, response) {
@@ -41,11 +44,13 @@ function apiCall({
                 responseData = queryString.parse(response.body);
                 return resolve(responseData);
             }
-            console.log("body0--------------------   ",  response.body.toString())
             let test = response.body;
-            test = test.replace(/\n/g, '');
-            test = test.replace(/\r/g, '');
-            resolve(JSON.parse(test));
+            try{
+              resolve(JSON.parse(test));
+            }catch(e){
+              console.log('Json parsing err ', e)
+              resolve({})
+            }
           }
         })
       })

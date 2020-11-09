@@ -3,8 +3,11 @@ const router = express.Router();
 const passport = require("passport");
 const mongoose = require("mongoose");
 
+const {isLogin} = require('../../middlewares');
+
 const authCtrl = require('../controllers/auth.controller');
 const webhookCtrl = require('../controllers/webhooks.controller');
+const tweetsCtrl = require('../controllers/tweets.controller');
 
 router.post(
     "/login",
@@ -50,10 +53,20 @@ router
 // twitter sign in
 router
  .route('/twitter-signin')
- .get(authCtrl.twitterSignin);
+ .get(isLogin, authCtrl.twitterSignin);
 
 router
     .route('/auth/callback')
     .get(authCtrl.handleOauthCb);
+
+// tweets
+router
+    .route('/tweets')
+    .get(isLogin, tweetsCtrl.getAllForOrganisation)
+    .post(isLogin, tweetsCtrl.replyOnTweet)
+
+// router
+//     .route('/tweets/:tweetId')
+    
 
 module.exports = router;

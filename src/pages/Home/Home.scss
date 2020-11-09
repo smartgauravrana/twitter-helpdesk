@@ -1,0 +1,15 @@
+@import "./assets/colors.scss";
+
+.TweetsContainer{
+  width: 25%;
+  height: 100%;
+}
+
+.TweetDetailContainer{
+  width: 75%;
+  border: 1px $border-color solid;
+  border-radius: 5px;
+  height: 100%;
+  margin-left: 30px;
+  display: flex;
+}
