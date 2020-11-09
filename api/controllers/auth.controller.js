@@ -83,5 +83,5 @@ module.exports.handleOauthCb = asyncHandler(async (req, res, next) => {
   // const profile = await twitterService.getUserDetails({token: response.oauth_token, token_secret: response.oauth_token_secret}, response.user_id);
   // console.log('profile data:   ', profile);
 
-  res.redirect(302, 'http://localhost:8080');
+  res.redirect(302, '/');
 });
