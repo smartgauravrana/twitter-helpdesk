@@ -30,13 +30,13 @@ function Auth({
       <Formik
         initialValues={{ email: '', password: '' }}
         validationSchema={loginSchema}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values) => {
           login(values, () => {
             history.push('/');
           });
         }}
       >
-        {({ isSubmitting, isValid }) => (
+        {({  isValid }) => (
           <Form >
             <p className="form-title">Login</p>
             <div className="form-group">
@@ -60,13 +60,13 @@ function Auth({
     <div className="vertical-line"></div>
     <div className="Register">
       <Formik
-        initialValues={{ email: '', password: '' }}
+        initialValues={{organisationName: '', email: '', password: '' }}
         validationSchema={registerSchema}
         onSubmit={(values) => {
           register(values);
         }}
       >
-        {({ isSubmitting, isValid }) => (
+        {({ isValid }) => (
           <Form >
           <p className="form-title">Register</p>
             <div className="form-group">
