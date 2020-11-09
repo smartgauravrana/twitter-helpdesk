@@ -8,7 +8,7 @@
     "dev:build-client": "webpack-dev-server --mode=development  --env.NODE_ENV=development --open",
     "dev:start": "nodemon server.js",
     "prod:build-client": "webpack --config webpack.config.js --mode=production --env.NODE_ENV=production",
-    "prod:start-server": "pm2 restart ludokhelo",
+    "prod:start-server": "pm2 restart twitterHelpdesk",
     "prod": "npm-run-all --serial prod:*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
